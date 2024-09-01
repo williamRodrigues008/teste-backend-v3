@@ -11,7 +11,7 @@ namespace TheatricalPlayersRefactoringKata.UseCase;
 
 public class StatementPrinter
 {
-    public string Print(Invoice invoice, Dictionary<string, Play> plays)
+    public string Print(Invoice invoice, Dictionary<string, Play> plays, string fileType, string path)
     {
         decimal totalAmount = 0;
         decimal volumeCredits = 0;
@@ -35,9 +35,15 @@ public class StatementPrinter
             result += string.Format(cultureInfo, "  {0}: {1:C} ({2} seats)\n", play.Name, Convert.ToDouble(thisAmount), perf.Audience);
             totalAmount += thisAmount;
         }
-        result += string.Format(cultureInfo, "Amount owed is {0:C}\n", totalAmount);
-        result += string.Format("You earned {0} credits\n", volumeCredits);
-        
+        if ( fileType == "xml" )
+        {
+           GenerateStatementXML(path, invoice, plays);
+        }
+        else 
+        {
+            result += string.Format(cultureInfo, "Amount owed is {0:C}\n", totalAmount);
+            result += string.Format("You earned {0} credits\n", volumeCredits);
+        }
         return result;
     }
 
@@ -62,10 +68,9 @@ public class StatementPrinter
                                                             new XElement("AmountOwed", amount),
                                                             new XElement("EarnedCredits", CreateVolumeCredit(0, perf.Audience, play.Type)),
                                                             new XElement("Seats", perf.Audience)
-                                            )
-                                    )
-                );
-
+                                                            )
+                                                        )
+                                                    );
         }
         newXMLStatement.Element("Statement").Add(new XElement("AmountOwed", totalAmount),
                         new XElement("EarnedCredits", credits));
