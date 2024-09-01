@@ -9,8 +9,8 @@ namespace TheatricalPlayersRefactoringKata.UseCase.Interfaces
 {
     public interface AmountInterface
     {
-        decimal AmountComedy(int audience, decimal amount);
-        decimal AmountHistory(int audience, decimal amount);
-        decimal AmountTragedy(int audience, decimal amount);
+        decimal AmountComedy(int audience, int lines);
+        decimal AmountHistory(int audience, int lines);
+        decimal AmountTragedy(int audience, int lines);
     }
 }
