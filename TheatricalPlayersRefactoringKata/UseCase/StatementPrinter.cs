@@ -47,7 +47,7 @@ public class StatementPrinter
         return result;
     }
 
-    public void GenerateStatementXML(string path, Invoice invoice, Dictionary<string, Play> plays)
+    public string GenerateStatementXML(string path, Invoice invoice, Dictionary<string, Play> plays)
     {
         decimal amount = 0;
         decimal totalAmount = 0;
@@ -76,7 +76,7 @@ public class StatementPrinter
                         new XElement("EarnedCredits", credits));
 
         newXMLStatement.Save( path + "StatementXML - " + invoice.Customer + ".xml" );
-
+        return newXMLStatement.ToString();
     }
 
     private decimal CreateVolumeCredit(decimal volumeCredits, int audience, string play)
